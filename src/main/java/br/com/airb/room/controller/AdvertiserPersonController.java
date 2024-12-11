@@ -1,6 +1,7 @@
 package br.com.airb.room.controller;
 
 import br.com.airb.room.model.AdvertiserPerson;
+import br.com.airb.room.model.dto.RequestAdvertiserPersonDto;
 import br.com.airb.room.service.AdvertiserPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +14,10 @@ public class AdvertiserPersonController {
     @Autowired
     private AdvertiserPersonService advertiserPersonService;
 
-    @GetMapping("/{id}/detalhes")
-    public String mostrarDetalhes(@PathVariable Long id) {
-        return advertiserPersonService.mostrarDetalhes(id);
-    }
 
     @PostMapping("/criar")
-    public ResponseEntity<AdvertiserPerson> criarAnunciante(@RequestBody AdvertiserPerson advertiserPerson) {
-        AdvertiserPerson createdAdvertiser = advertiserPersonService.criarAnunciante(advertiserPerson);
-        return ResponseEntity.ok(createdAdvertiser);  // Retorna o anunciante criado
+    public ResponseEntity<AdvertiserPerson> criarAnunciante(@RequestBody RequestAdvertiserPersonDto requestAdvertiserPersonDto) {
+        return advertiserPersonService.criarAnunciante(requestAdvertiserPersonDto);
     }
 
     @PutMapping("/{id}/atualizar")
