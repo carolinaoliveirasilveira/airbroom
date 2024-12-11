@@ -14,9 +14,17 @@ public class AdvertiserPersonService {
     private AdvertiserPersonPepository advertiserPersonRepository;
 
     public ResponseAdvertiserPersonDto criarAnunciante(RequestAdvertiserPersonDto requestAdvertiserPersonDto) {
+        // Converte o DTO recebido para a entidade AdvertiserPerson
         AdvertiserPerson advertiserPerson = toAdvertiserDto(requestAdvertiserPersonDto);
+
+        // Salva a entidade AdvertiserPerson no repositório
         AdvertiserPerson returnAdvertiserPerson = advertiserPersonRepository.save(advertiserPerson);
+
+        // Converte a entidade AdvertiserPerson de volta para um DTO de resposta
         ResponseAdvertiserPersonDto responseAdvertiserPersonDto1 = toConverteAdvertiserParaDto(returnAdvertiserPerson);
+
+        // Retorna o DTO de resposta
+        return responseAdvertiserPersonDto1;
     }
 
     private ResponseAdvertiserPersonDto toConverteAdvertiserParaDto(AdvertiserPerson advertiserPerson) {

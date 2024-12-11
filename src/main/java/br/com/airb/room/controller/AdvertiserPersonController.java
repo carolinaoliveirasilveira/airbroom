@@ -2,6 +2,7 @@ package br.com.airb.room.controller;
 
 import br.com.airb.room.model.AdvertiserPerson;
 import br.com.airb.room.model.dto.RequestAdvertiserPersonDto;
+import br.com.airb.room.model.dto.ResponseAdvertiserPersonDto;
 import br.com.airb.room.service.AdvertiserPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class AdvertiserPersonController {
 
 
     @PostMapping("/criar")
-    public ResponseEntity<AdvertiserPerson> criarAnunciante(@RequestBody RequestAdvertiserPersonDto requestAdvertiserPersonDto) {
+    public ResponseAdvertiserPersonDto criarAnunciante(@RequestBody RequestAdvertiserPersonDto requestAdvertiserPersonDto) {
         return advertiserPersonService.criarAnunciante(requestAdvertiserPersonDto);
     }
 
