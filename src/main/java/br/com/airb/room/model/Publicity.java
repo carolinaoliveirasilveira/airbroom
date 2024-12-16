@@ -3,6 +3,7 @@ package br.com.airb.room.model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "publicity")
@@ -17,7 +18,6 @@ public class Publicity {
     @CollectionTable(name = "mobilia", joinColumns = @JoinColumn(name = "publicity_id"))
     @Column(name = "item")
     private List<String> mobiliaDisponivel;
-
     private int quantidadePessoas;
     private int diaInicio;
     private int mesInicio;
@@ -26,6 +26,7 @@ public class Publicity {
     private boolean aceitaPets;
     private boolean aceitaCriancas;
     private String acessibilidade;
+    private UUID idAnunciante;
 
     @ElementCollection
     @CollectionTable(name = "fotos", joinColumns = @JoinColumn(name = "publicity_id"))
@@ -38,7 +39,6 @@ public class Publicity {
     @JoinColumn(name = "anunciante_id")
     private AdvertiserPerson anunciante;
 
-    // Getters e Setters
     public int getDiaFim() {
         return diaFim;
     }
@@ -157,5 +157,13 @@ public class Publicity {
 
     public void setValor(double valor) {
         this.valor = valor;
+    }
+
+    public UUID getIdAnunciante() {
+        return idAnunciante;
+    }
+
+    public void setIdAnunciante(UUID idAnunciante) {
+        this.idAnunciante = idAnunciante;
     }
 }

@@ -21,20 +21,12 @@ public class AdvertiserPersonController {
         return advertiserPersonService.criarAnunciante(requestAdvertiserPersonDto);
     }
 
-    @PutMapping("/{id}/atualizar")
-    public ResponseEntity<AdvertiserPerson> atualizarAnunciante(@PathVariable Long id, @RequestBody AdvertiserPerson advertiserPerson) {
-        AdvertiserPerson updatedAdvertiser = advertiserPersonService.atualizarAnunciante(id, advertiserPerson);
-        if (updatedAdvertiser != null) {
-            return ResponseEntity.ok(updatedAdvertiser);  // Retorna o anunciante atualizado
-        } else {
-            return ResponseEntity.notFound().build();  // Retorna 404 se não encontrar o anunciante
-        }
-    }
 
-    @GetMapping("/{id}/buscar")
-    public ResponseEntity<AdvertiserPerson> buscarAnunciantePorId(@PathVariable Long id) {
-        return ResponseEntity.of(java.util.Optional.ofNullable(advertiserPersonService.buscarAnunciantePorId(id)));
-    }
+   /* @GetMapping("/{id}/buscar")
+    public ResponseEntity<ResponseAdvertiserPersonDto> buscarAnunciantePorId(@PathVariable Long id) {
+        ResponseAdvertiserPersonDto advertiser = advertiserPersonService.buscarAnunciantePorId(id);
+        return (advertiser != null) ? ResponseEntity.ok(advertiser) : ResponseEntity.notFound().build();
+    }*/
 
     @DeleteMapping("/{id}/excluir")
     public boolean excluirAnunciante(@PathVariable Long id) {

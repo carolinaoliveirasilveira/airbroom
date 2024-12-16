@@ -1,23 +1,27 @@
 package br.com.airb.room.controller;
 
 import br.com.airb.room.model.Publicity;
+import br.com.airb.room.model.dto.RequestPublicityDto;
+import br.com.airb.room.model.dto.ResponsePublicityDto;
 import br.com.airb.room.service.PublicityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
+@RequestMapping("/publicity")
 public class PublicityController {
     @Autowired
     private PublicityService publicityService;
 
-    @GetMapping("/publicity/{id}")
-    public String exibirDetalhesAnuncio(@PathVariable Long id) {
-             return publicityService.mostrarDetalhes(id);
+    @PostMapping("/{idAnunciante}/criar")
+    public ResponseEntity<ResponsePublicityDto> criarAnuncio(@RequestBody RequestPublicityDto requestPublicityDto, @PathVariable UUID idAnunciante) {
+        ResponsePublicityDto response = publicityService.criarAnuncio(requestPublicityDto, idAnunciante);
+        return ResponseEntity.ok(response);  // Retorna 200 OK com os detalhes do anúncio criado
     }
+
 
     @GetMapping("/{id}/buscar")
     public ResponseEntity<Publicity> buscarAnuncioPorId(@PathVariable Long id) {

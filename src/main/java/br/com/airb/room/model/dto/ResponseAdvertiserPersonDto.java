@@ -1,14 +1,13 @@
 package br.com.airb.room.model.dto;
 
+import java.util.List;
+import java.util.UUID;
+
 public record ResponseAdvertiserPersonDto(
-        Long id,
+        UUID id,
         String nome,
-        String email,
-        String telefone,
         String cpfOuCnpj,
-        String endereco,
-        String cidade,
-        String estado,
-        String pais,
-        boolean ativo) {
+        boolean ativo,
+        List<ContatoDto> contatos,
+        List<EnderecoDto> enderecos) {
 }
