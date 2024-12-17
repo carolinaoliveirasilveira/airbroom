@@ -7,24 +7,36 @@ import br.com.airb.room.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 @Service
 public class ReservationService {
 
     @Autowired
     private ReservationRepository reservationRepository;
 
-    public ResponseReservationDto criarReserva(RequestReservationDto requestReservationDto, Long idReservation) {
-        Reservations reservations = toReservationDto(requestReservationDto);
-        reservations.setIdReservation(idReservation);
-        Reservations returnReservation = reservationRepository.save(reservations);
+    public ResponseReservationDto createReservation(RequestReservationDto requestReservationDto) {
+        long calculatingNumberOfDays = calculatingNumberOfDays(requestReservationDto.dataInicio(), requestReservationDto.dataFim());
+        BigDecimal calculatingTotalValue = requestReservationDto.valorDiaria()
+                .multiply(new BigDecimal(calculatingNumberOfDays));
 
-        ResponseReservationDto responseReservationDto = toConverteReservationparaResponseReservationDto(returnReservation);
-        return responseReservationDto;
+        Reservations returnReservation =
+                reservationRepository.save(toReservationDto(requestReservationDto, calculatingTotalValue));
+        return toConverteReservationparaResponseReservationDto(returnReservation);
+    }
+
+    private long calculatingNumberOfDays(Date dataInicio, Date dataFim) {
+
+        long diffInMillies = dataFim.getTime() - dataInicio.getTime();
+
+        return TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
     }
 
     private ResponseReservationDto toConverteReservationparaResponseReservationDto(Reservations returnReservation) {
-        ResponseReservationDto responseReservationDto = new ResponseReservationDto(
-                returnReservation.getIdReservation(),
+        return new ResponseReservationDto(
+                returnReservation.getId(),
                 returnReservation.getDataInicio(),
                 returnReservation.getDataFim(),
                 returnReservation.getValorDiaria(),
@@ -32,20 +44,17 @@ public class ReservationService {
                 returnReservation.getFormaPagamento(),
                 returnReservation.getPagamentoAntecipado()
         );
-
-        return responseReservationDto;
     }
 
 
-    private Reservations toReservationDto(RequestReservationDto requestReservationDto) {
+    private Reservations toReservationDto(RequestReservationDto requestReservationDto, BigDecimal calculatingTotalValue) {
         Reservations reservations = new Reservations();
         reservations.setDataInicio(requestReservationDto.dataInicio());
         reservations.setDataFim(requestReservationDto.dataFim());
         reservations.setValorDiaria(requestReservationDto.valorDiaria());
-        reservations.setValorTotal(requestReservationDto.valorTotal());
+        reservations.setValorTotal(calculatingTotalValue);
         reservations.setFormaPagamento(requestReservationDto.formaPagamento());
         reservations.setPagamentoAntecipado(requestReservationDto.pagamentoAntecipado());
-
         return reservations;
     }
 }

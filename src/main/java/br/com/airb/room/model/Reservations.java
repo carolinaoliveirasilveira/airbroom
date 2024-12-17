@@ -3,35 +3,36 @@ package br.com.airb.room.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
+
 @Entity
+@Table(name = "reservations")
 public class Reservations {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_reservation")
-    private Long idReservation;
-    private LocalDate dataInicio;
-    private LocalDate dataFim;
+    private Long id;
+    private Date dataInicio;
+    private Date dataFim;
     private BigDecimal valorDiaria;
     private BigDecimal valorTotal;
     private String formaPagamento;
     private Boolean pagamentoAntecipado;
 
 
-    public LocalDate getDataFim() {
+    public Date getDataFim() {
         return dataFim;
     }
 
-    public void setDataFim(LocalDate dataFim) {
+    public void setDataFim(Date dataFim) {
         this.dataFim = dataFim;
     }
 
-    public LocalDate getDataInicio() {
+    public Date getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(LocalDate dataInicio) {
+    public void setDataInicio(Date dataInicio) {
         this.dataInicio = dataInicio;
     }
 
@@ -43,12 +44,12 @@ public class Reservations {
         this.formaPagamento = formaPagamento;
     }
 
-    public Long getIdReservation() {
-        return idReservation;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdReservation(Long idReservation) {
-        this.idReservation = idReservation;
+    public void setId(Long idReservation) {
+        this.id = idReservation;
     }
 
     public Boolean getPagamentoAntecipado() {
@@ -74,5 +75,4 @@ public class Reservations {
     public void setValorTotal(BigDecimal valorTotal) {
         this.valorTotal = valorTotal;
     }
-
 }

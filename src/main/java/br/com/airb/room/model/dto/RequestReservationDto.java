@@ -1,13 +1,12 @@
 package br.com.airb.room.model.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
 
 public record RequestReservationDto(
-        LocalDate dataInicio,
-        LocalDate dataFim,
+        Date dataInicio,
+        Date dataFim,
         BigDecimal valorDiaria,
-        BigDecimal valorTotal,
         String formaPagamento,
         Boolean pagamentoAntecipado) {
 }
