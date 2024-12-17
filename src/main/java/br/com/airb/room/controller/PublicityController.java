@@ -19,7 +19,7 @@ public class PublicityController {
     @PostMapping("/{idAnunciante}/criar")
     public ResponseEntity<ResponsePublicityDto> criarAnuncio(@RequestBody RequestPublicityDto requestPublicityDto, @PathVariable UUID idAnunciante) {
         ResponsePublicityDto response = publicityService.criarAnuncio(requestPublicityDto, idAnunciante);
-        return ResponseEntity.ok(response);  // Retorna 200 OK com os detalhes do anúncio criado
+        return ResponseEntity.ok(response);
     }
 
 
