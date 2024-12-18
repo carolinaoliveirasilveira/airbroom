@@ -1,6 +1,5 @@
 package br.com.airb.room.controller;
 
-import br.com.airb.room.model.Publicity;
 import br.com.airb.room.model.dto.RequestReservationDto;
 import br.com.airb.room.model.dto.ResponseReservationDto;
 import br.com.airb.room.service.ReservationService;
@@ -20,7 +19,7 @@ public class ReservationController {
     @PostMapping("/create/{publicityId}")
     public ResponseReservationDto createReservation(
             @RequestBody RequestReservationDto requestReservationDto,
-            @PathVariable Long publicityId ) {
+            @PathVariable Long publicityId) {
         return reservationService.createReservation(requestReservationDto, publicityId);
     }
 
