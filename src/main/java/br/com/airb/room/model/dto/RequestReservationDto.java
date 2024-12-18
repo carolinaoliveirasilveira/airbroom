@@ -8,5 +8,6 @@ public record RequestReservationDto(
         Date dataFim,
         BigDecimal valorDiaria,
         String formaPagamento,
-        Boolean pagamentoAntecipado) {
+        Boolean pagamentoAntecipado,
+        Long publicityId) {
 }

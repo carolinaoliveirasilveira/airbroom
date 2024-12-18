@@ -35,6 +35,9 @@ public class Publicity {
 
     private double valor;
 
+    @OneToMany(mappedBy = "publicity")
+    private List<Reservations> reservations;
+
     @ManyToOne
     @JoinColumn(name = "anunciante_id")
     private AdvertiserPerson anunciante;
@@ -79,13 +82,6 @@ public class Publicity {
         this.acessibilidade = acessibilidade;
     }
 
-    public AdvertiserPerson getAnunciante() {
-        return anunciante;
-    }
-
-    public void setAnunciante(AdvertiserPerson anunciante) {
-        this.anunciante = anunciante;
-    }
 
     public int getDiaInicio() {
         return diaInicio;

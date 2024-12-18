@@ -19,6 +19,10 @@ public class Reservations {
     private String formaPagamento;
     private Boolean pagamentoAntecipado;
 
+    @ManyToOne
+    @JoinColumn(name = "publicity_id", nullable = false)
+    private Publicity publicity;
+
 
     public Date getDataFim() {
         return dataFim;
@@ -75,4 +79,14 @@ public class Reservations {
     public void setValorTotal(BigDecimal valorTotal) {
         this.valorTotal = valorTotal;
     }
+
+    public Publicity getPublicity() {
+        return publicity;
+    }
+
+    public void setPublicity(Publicity publicity) {
+        this.publicity = publicity;
+    }
 }
+
+
