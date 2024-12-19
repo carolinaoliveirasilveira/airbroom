@@ -114,8 +114,17 @@ public class ReservationService {
         public ResourceNotFoundException(String message) {
             super(message);
         }
-
-
     }
+    public List<ResponseReservationDto> getAllReservationsByPublicityId(Long publicityId) {
+        Publicity publicity = publicityRepository.findById(publicityId)
+                .orElseThrow(() -> new RuntimeException("Anúncio não encontrado"));
+
+        List<Reservations> reservations = reservationRepository.findByPublicity(publicity);
+
+        return reservations.stream()
+                .map(this::toConverteReservationparaResponseReservationDto)
+                .collect(Collectors.toList());
+    }
+
 }
 

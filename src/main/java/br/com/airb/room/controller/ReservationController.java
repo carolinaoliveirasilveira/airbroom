@@ -46,4 +46,9 @@ public class ReservationController {
         return ResponseEntity.ok("Reserva com ID " + id + " foi deletada com sucesso.");
     }
 
+    @GetMapping("/publicity/{publicityId}")
+    public List<ResponseReservationDto> getReservationsByPublicity(@PathVariable Long publicityId) {
+        return reservationService.getAllReservationsByPublicityId(publicityId);
+    }
+
 }
