@@ -4,6 +4,7 @@ import br.com.airb.room.model.Publicity;
 import br.com.airb.room.model.Reservations;
 import br.com.airb.room.model.dto.RequestReservationDto;
 import br.com.airb.room.model.dto.ResponseReservationDto;
+import br.com.airb.room.model.dto.ResponseReservationWithPublicityDto;
 import br.com.airb.room.repository.PublicityRepository;
 import br.com.airb.room.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,15 +44,15 @@ public class ReservationService {
         return TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
     }
 
-    private ResponseReservationDto toConverteReservationparaResponseReservationDto(Reservations returnReservation) {
+    private ResponseReservationDto toConverteReservationparaResponseReservationDto(Reservations reservation) {
         return new ResponseReservationDto(
-                returnReservation.getId(),
-                returnReservation.getDataInicio(),
-                returnReservation.getDataFim(),
-                returnReservation.getValorDiaria(),
-                returnReservation.getValorTotal(),
-                returnReservation.getFormaPagamento(),
-                returnReservation.getPagamentoAntecipado()
+                reservation.getId(),
+                reservation.getDataInicio(),
+                reservation.getDataFim(),
+                reservation.getValorDiaria(),
+                reservation.getValorTotal(),
+                reservation.getFormaPagamento(),
+                reservation.getPagamentoAntecipado()
         );
     }
 
@@ -115,16 +116,19 @@ public class ReservationService {
             super(message);
         }
     }
-    public List<ResponseReservationDto> getAllReservationsByPublicityId(Long publicityId) {
+    public List<ResponseReservationWithPublicityDto> getAllReservationsByPublicityId(Long publicityId) {
         Publicity publicity = publicityRepository.findById(publicityId)
                 .orElseThrow(() -> new RuntimeException("Anúncio não encontrado"));
 
         List<Reservations> reservations = reservationRepository.findByPublicity(publicity);
 
         return reservations.stream()
-                .map(this::toConverteReservationparaResponseReservationDto)
+                .map(reservation -> new ResponseReservationWithPublicityDto(
+                        toConverteReservationparaResponseReservationDto(reservation),
+                        new ResponseReservationWithPublicityDto.PublicityDto(publicity)))
                 .collect(Collectors.toList());
     }
+
 
 }
 

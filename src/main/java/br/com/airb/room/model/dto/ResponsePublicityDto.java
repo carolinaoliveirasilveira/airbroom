@@ -16,6 +16,8 @@ public record ResponsePublicityDto(
         boolean aceitaPets,
         boolean aceitaCriancas,
         String acessibilidade,
-        UUID idAnunciante) {
+        UUID idAnunciante,
+        String descricao,
+        String titulo) {
 
 }

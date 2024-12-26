@@ -2,6 +2,7 @@ package br.com.airb.room.controller;
 
 import br.com.airb.room.model.dto.RequestReservationDto;
 import br.com.airb.room.model.dto.ResponseReservationDto;
+import br.com.airb.room.model.dto.ResponseReservationWithPublicityDto;
 import br.com.airb.room.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,8 +48,9 @@ public class ReservationController {
     }
 
     @GetMapping("/publicity/{publicityId}")
-    public List<ResponseReservationDto> getReservationsByPublicity(@PathVariable Long publicityId) {
+    public List<ResponseReservationWithPublicityDto> getReservationsByPublicity(@PathVariable Long publicityId) {
         return reservationService.getAllReservationsByPublicityId(publicityId);
     }
+
 
 }

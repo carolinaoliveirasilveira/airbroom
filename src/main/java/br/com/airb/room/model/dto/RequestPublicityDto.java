@@ -15,5 +15,7 @@ public record RequestPublicityDto(
         boolean aceitaCriancas,
         String acessibilidade,
         List<String> fotos,
-        double valor) {
+        double valor,
+        String descricao,
+        String titulo) {
 }

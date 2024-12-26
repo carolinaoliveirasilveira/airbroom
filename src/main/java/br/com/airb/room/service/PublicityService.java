@@ -38,7 +38,9 @@ public class PublicityService {
                         publicity.isAceitaPets(),
                         publicity.isAceitaCriancas(),
                         publicity.getAcessibilidade(),
-                        publicity.getIdAnunciante());
+                        publicity.getIdAnunciante(),
+                        publicity.getDescricao(),
+                        publicity.getTitulo());
 
         return responsePublicityDto;
     }
@@ -55,6 +57,8 @@ public class PublicityService {
         publicity.setAceitaPets(requestPublicityDto.aceitaPets());
         publicity.setAceitaCriancas(requestPublicityDto.aceitaCriancas());
         publicity.setAcessibilidade(requestPublicityDto.acessibilidade());
+        publicity.setDescricao(requestPublicityDto.descricao());
+        publicity.setTitulo(requestPublicityDto.titulo());
         return publicity;
 
     }

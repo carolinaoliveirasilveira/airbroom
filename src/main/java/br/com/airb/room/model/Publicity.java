@@ -34,6 +34,8 @@ public class Publicity {
     private List<String> fotos;
 
     private double valor;
+    private String titulo;
+    private String descricao;
 
     @OneToMany(mappedBy = "publicity")
     private List<Reservations> reservations;
@@ -161,5 +163,37 @@ public class Publicity {
 
     public void setIdAnunciante(UUID idAnunciante) {
         this.idAnunciante = idAnunciante;
+    }
+
+    public AdvertiserPerson getAnunciante() {
+        return anunciante;
+    }
+
+    public void setAnunciante(AdvertiserPerson anunciante) {
+        this.anunciante = anunciante;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public List<Reservations> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservations> reservations) {
+        this.reservations = reservations;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 }
