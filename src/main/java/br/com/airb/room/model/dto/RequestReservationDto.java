@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public record RequestReservationDto(
-        Date dataInicio,
-        Date dataFim,
-        BigDecimal valorDiaria,
-        String formaPagamento,
-        Boolean pagamentoAntecipado,
+        Date checkin,
+        Date checkout,
+        BigDecimal dailyValue,
+        String paymentMethod,
+        Boolean advancePayment,
         Long publicityId) {
 }

@@ -28,42 +28,63 @@ public class ReservationService {
     private PublicityRepository publicityRepository;
 
     public ResponseReservationDto createReservation(RequestReservationDto requestReservationDto, Long publicityId) {
-        long calculatingNumberOfDays = calculatingNumberOfDays(requestReservationDto.dataInicio(), requestReservationDto.dataFim());
-        BigDecimal calculatingTotalValue = requestReservationDto.valorDiaria()
+        if (isDateOccupied(publicityId, requestReservationDto.checkin(), requestReservationDto.checkout())) {
+            throw new IllegalArgumentException("As datas selecionadas já estão ocupadas.");
+        }
+
+        long calculatingNumberOfDays = calculatingNumberOfDays(requestReservationDto.checkin(), requestReservationDto.checkout());
+        BigDecimal calculatingTotalValue = requestReservationDto.dailyValue()
                 .multiply(new BigDecimal(calculatingNumberOfDays));
 
-        Publicity publicity = publicityRepository.findById(publicityId).orElseThrow(() -> new RuntimeException("Anúncio não encontrado"));
+        Publicity publicity = publicityRepository.findById(publicityId)
+                .orElseThrow(() -> new RuntimeException("Anúncio não encontrado"));
 
-        Reservations returnReservation = reservationRepository.save(toReservationDto(requestReservationDto, calculatingTotalValue, publicity));
+        Reservations returnReservation = reservationRepository.save(
+                toReservationDto(requestReservationDto, calculatingTotalValue, publicity));
 
         return toConverteReservationparaResponseReservationDto(returnReservation);
     }
 
-    private long calculatingNumberOfDays(Date dataInicio, Date dataFim) {
-        long diffInMillies = dataFim.getTime() - dataInicio.getTime();
+
+    public boolean isDateOccupied(Long publicityId, Date checkin, Date checkout) {
+        List<Reservations> reservations = reservationRepository.findAll();
+
+        for (Reservations reservation : reservations) {
+            if (reservation.getPublicity().getId().equals(publicityId) &&
+                    reservation.getCheckin().before(checkout) &&
+                    reservation.getCheckout().after(checkin)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private long calculatingNumberOfDays(Date checkin, Date checkout) {
+        long diffInMillies = checkout.getTime() - checkin.getTime();
         return TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
     }
 
     private ResponseReservationDto toConverteReservationparaResponseReservationDto(Reservations reservation) {
         return new ResponseReservationDto(
                 reservation.getId(),
-                reservation.getDataInicio(),
-                reservation.getDataFim(),
-                reservation.getValorDiaria(),
-                reservation.getValorTotal(),
-                reservation.getFormaPagamento(),
-                reservation.getPagamentoAntecipado()
+                reservation.getCheckin(),
+                reservation.getCheckout(),
+                reservation.getDailyValue(),
+                reservation.getTotalValue(),
+                reservation.getPaymentMethod(),
+                reservation.getAdvancePayment()
         );
     }
 
     private Reservations toReservationDto(RequestReservationDto requestReservationDto, BigDecimal calculatingTotalValue, Publicity publicity) {
         Reservations reservations = new Reservations();
-        reservations.setDataInicio(requestReservationDto.dataInicio());
-        reservations.setDataFim(requestReservationDto.dataFim());
-        reservations.setValorDiaria(requestReservationDto.valorDiaria());
-        reservations.setValorTotal(calculatingTotalValue);
-        reservations.setFormaPagamento(requestReservationDto.formaPagamento());
-        reservations.setPagamentoAntecipado(requestReservationDto.pagamentoAntecipado());
+        reservations.setCheckin(requestReservationDto.checkin());
+        reservations.setCheckout(requestReservationDto.checkout());
+        reservations.setDailyValue(requestReservationDto.dailyValue());
+        reservations.setTotalValue(calculatingTotalValue);
+        reservations.setPaymentMethod(requestReservationDto.paymentMethod());
+        reservations.setAdvancePayment(requestReservationDto.advancePayment());
         reservations.setPublicity(publicity);
         return reservations;
     }
@@ -87,15 +108,15 @@ public class ReservationService {
         Reservations reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reserva não encontrada"));
 
-        long calculatingNumberOfDays = calculatingNumberOfDays(requestReservationDto.dataInicio(), requestReservationDto.dataFim());
-        BigDecimal calculatingTotalValue = requestReservationDto.valorDiaria().multiply(new BigDecimal(calculatingNumberOfDays));
+        long calculatingNumberOfDays = calculatingNumberOfDays(requestReservationDto.checkin(), requestReservationDto.checkout());
+        BigDecimal calculatingTotalValue = requestReservationDto.dailyValue().multiply(new BigDecimal(calculatingNumberOfDays));
 
-        reservation.setDataInicio(requestReservationDto.dataInicio());
-        reservation.setDataFim(requestReservationDto.dataFim());
-        reservation.setValorDiaria(requestReservationDto.valorDiaria());
-        reservation.setValorTotal(calculatingTotalValue);
-        reservation.setFormaPagamento(requestReservationDto.formaPagamento());
-        reservation.setPagamentoAntecipado(requestReservationDto.pagamentoAntecipado());
+        reservation.setCheckin(requestReservationDto.checkin());
+        reservation.setCheckout(requestReservationDto.checkout());
+        reservation.setDailyValue(requestReservationDto.dailyValue());
+        reservation.setTotalValue(calculatingTotalValue);
+        reservation.setPaymentMethod(requestReservationDto.paymentMethod());
+        reservation.setAdvancePayment(requestReservationDto.advancePayment());
 
         reservationRepository.save(reservation);
 
@@ -116,6 +137,7 @@ public class ReservationService {
             super(message);
         }
     }
+
     public List<ResponseReservationWithPublicityDto> getAllReservationsByPublicityId(Long publicityId) {
         Publicity publicity = publicityRepository.findById(publicityId)
                 .orElseThrow(() -> new RuntimeException("Anúncio não encontrado"));

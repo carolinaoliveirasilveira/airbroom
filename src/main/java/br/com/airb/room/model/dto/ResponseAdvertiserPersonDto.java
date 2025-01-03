@@ -5,9 +5,9 @@ import java.util.UUID;
 
 public record ResponseAdvertiserPersonDto(
         UUID id,
-        String nome,
-        String cpfOuCnpj,
-        boolean ativo,
-        List<ContatoDto> contatos,
-        List<EnderecoDto> enderecos) {
+        String name,
+        String cpfOrCnpj,
+        Boolean active,
+        List<ContactsDto> contacts,
+        List<AddressesDto> addresses) {
 }

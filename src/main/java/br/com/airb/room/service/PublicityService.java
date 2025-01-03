@@ -15,60 +15,57 @@ public class PublicityService {
     @Autowired
     private PublicityRepository publicityRepository;
 
-    public ResponsePublicityDto criarAnuncio(RequestPublicityDto requestPublicityDto, UUID idAnunciante) {
+    public ResponsePublicityDto createPublicity(RequestPublicityDto requestPublicityDto, UUID idAdvertiser) {
         Publicity publicity = toPublicityDto(requestPublicityDto);
-        publicity.setIdAnunciante(idAnunciante);
-        Publicity returnPublicity = publicityRepository.save(publicity);
-        ResponsePublicityDto responsePublicityDto = toConvertePublicityParaResponsePublicityDto(returnPublicity);
+        publicity.setIdAdvertiser(idAdvertiser);
+        Publicity savedPublicity = publicityRepository.save(publicity);
+        ResponsePublicityDto responsePublicityDto = convertAdvertising(savedPublicity);
         return responsePublicityDto;
     }
 
-    private ResponsePublicityDto toConvertePublicityParaResponsePublicityDto(Publicity publicity) {
-        ResponsePublicityDto responsePublicityDto =
-                new ResponsePublicityDto(
-                        publicity.getId(),
-                        publicity.getLocalizacao(),
-                        publicity.getTamanho(),
-                        publicity.getMobiliaDisponivel(),
-                        publicity.getQuantidadePessoas(),
-                        publicity.getDiaInicio(),
-                        publicity.getMesInicio(),
-                        publicity.getDiaFim(),
-                        publicity.getMesFim(),
-                        publicity.isAceitaPets(),
-                        publicity.isAceitaCriancas(),
-                        publicity.getAcessibilidade(),
-                        publicity.getIdAnunciante(),
-                        publicity.getDescricao(),
-                        publicity.getTitulo());
-
-        return responsePublicityDto;
+    private ResponsePublicityDto convertAdvertising(Publicity publicity) {
+        return new ResponsePublicityDto(
+                publicity.getId(),
+                publicity.getLocation(),
+                publicity.getSize(),
+                publicity.getFurnitureAvailable(),
+                publicity.getAmountPeople(),
+                publicity.getCheckin(),
+                publicity.getCheckout(),
+                publicity.isAcceptsPets(),
+                publicity.isAcceptschildren(),
+                publicity.getAccessibility(),
+                publicity.getIdAdvertiser(),
+                publicity.getPhotos(),
+                publicity.getValue(),
+                publicity.getDescription(),
+                publicity.getTitle()
+        );
     }
 
     private Publicity toPublicityDto(RequestPublicityDto requestPublicityDto) {
         Publicity publicity = new Publicity();
-        publicity.setLocalizacao(requestPublicityDto.localizacao());
-        publicity.setTamanho(requestPublicityDto.tamanho());
-        publicity.setMobiliaDisponivel(requestPublicityDto.mobiliaDisponivel());
-        publicity.setQuantidadePessoas(requestPublicityDto.quantidadePessoas());
-        publicity.setDiaInicio(requestPublicityDto.diaInicio());
-        publicity.setDiaFim(requestPublicityDto.diaFim());
-        publicity.setMesFim(requestPublicityDto.mesFim());
-        publicity.setAceitaPets(requestPublicityDto.aceitaPets());
-        publicity.setAceitaCriancas(requestPublicityDto.aceitaCriancas());
-        publicity.setAcessibilidade(requestPublicityDto.acessibilidade());
-        publicity.setDescricao(requestPublicityDto.descricao());
-        publicity.setTitulo(requestPublicityDto.titulo());
+        publicity.setLocation(requestPublicityDto.location());
+        publicity.setSize(requestPublicityDto.size());
+        publicity.setFurnitureAvailable(requestPublicityDto.furnitureAvailable());
+        publicity.setAmountPeople(requestPublicityDto.amountPeople());
+        publicity.setCheckin(requestPublicityDto.checkin());
+        publicity.setCheckout(requestPublicityDto.checkout());
+        publicity.setAcceptsPets(requestPublicityDto.acceptsPets());
+        publicity.setAcceptschildren(requestPublicityDto.acceptschildren());
+        publicity.setAccessibility(requestPublicityDto.accessibility());
+        publicity.setPhotos(requestPublicityDto.photos());
+        publicity.setValue(requestPublicityDto.value());
+        publicity.setTitle(requestPublicityDto.title());
+        publicity.setDescription(requestPublicityDto.description());
         return publicity;
-
     }
 
-
-    public Publicity buscarAnuncioPorId(Long id) {
-        return publicityRepository.findById(id).orElse(null);  // Retorna null se não encontrado
+    public Publicity searchAdById(Long id) {
+        return publicityRepository.findById(id).orElse(null);
     }
 
-    public boolean excluirAnuncio(Long id) {
+    public boolean deleteAd(Long id) {
         if (publicityRepository.existsById(id)) {
             publicityRepository.deleteById(id);
             return true;

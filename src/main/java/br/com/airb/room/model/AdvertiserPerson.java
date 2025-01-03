@@ -2,6 +2,7 @@ package br.com.airb.room.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -11,24 +12,31 @@ public class AdvertiserPerson {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private String nome;
-    private String cpfOuCnpj;
-    private boolean ativo;
+    private String name;
+    private String cpfOrCnpj;
+    private Boolean active;
 
-    public boolean isAtivo() {
-        return ativo;
+    @OneToMany(mappedBy = "idAdvertiser")
+    private List<Address> addresses;
+
+    @OneToMany(mappedBy = "idAdvertiser")
+    private List<Contact> contacts;
+
+
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
-    public String getCpfOuCnpj() {
-        return cpfOuCnpj;
+    public String getCpfOrCnpj() {
+        return cpfOrCnpj;
     }
 
-    public void setCpfOuCnpj(String cpfOuCnpj) {
-        this.cpfOuCnpj = cpfOuCnpj;
+    public void setCpfOrCnpj(String cpfOrCnpj) {
+        this.cpfOrCnpj = cpfOrCnpj;
     }
 
     public UUID getId() {
@@ -39,12 +47,12 @@ public class AdvertiserPerson {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 }
 

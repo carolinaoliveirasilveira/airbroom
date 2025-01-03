@@ -2,6 +2,7 @@ package br.com.airb.room.model;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,94 +12,98 @@ public class Publicity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String localizacao;
-    private double tamanho;
-
-    @ElementCollection
-    @CollectionTable(name = "mobilia", joinColumns = @JoinColumn(name = "publicity_id"))
-    @Column(name = "item")
-    private List<String> mobiliaDisponivel;
-    private int quantidadePessoas;
-    private int diaInicio;
-    private int mesInicio;
-    private int diaFim;
-    private int mesFim;
-    private boolean aceitaPets;
-    private boolean aceitaCriancas;
-    private String acessibilidade;
-    private UUID idAnunciante;
-
-    @ElementCollection
-    @CollectionTable(name = "fotos", joinColumns = @JoinColumn(name = "publicity_id"))
-    @Column(name = "foto")
-    private List<String> fotos;
-
-    private double valor;
-    private String titulo;
-    private String descricao;
+    private String location;
+    private double size;
+    private List<String> furnitureAvailable;
+    private int amountPeople;
+    private Date checkin;
+    private Date checkout;
+    private boolean acceptsPets;
+    private boolean acceptschildren;
+    private String accessibility;
+    private UUID idAdvertiser;
+    private List<String> photos;
+    private double value;
+    private String title;
+    private String description;
 
     @OneToMany(mappedBy = "publicity")
     private List<Reservations> reservations;
 
     @ManyToOne
-    @JoinColumn(name = "anunciante_id")
-    private AdvertiserPerson anunciante;
+    @JoinColumn(name = "advertiser_id")
+    private AdvertiserPerson advertiser;
 
-    public int getDiaFim() {
-        return diaFim;
+    public boolean isAcceptschildren() {
+        return acceptschildren;
     }
 
-    public void setDiaFim(int diaFim) {
-        this.diaFim = diaFim;
+    public void setAcceptschildren(boolean acceptschildren) {
+        this.acceptschildren = acceptschildren;
     }
 
-    public int getMesFim() {
-        return mesFim;
+    public boolean isAcceptsPets() {
+        return acceptsPets;
     }
 
-    public void setMesFim(int mesFim) {
-        this.mesFim = mesFim;
+    public void setAcceptsPets(boolean acceptsPets) {
+        this.acceptsPets = acceptsPets;
     }
 
-    public boolean isAceitaCriancas() {
-        return aceitaCriancas;
+    public String getAccessibility() {
+        return accessibility;
     }
 
-    public void setAceitaCriancas(boolean aceitaCriancas) {
-        this.aceitaCriancas = aceitaCriancas;
+    public void setAccessibility(String accessibility) {
+        this.accessibility = accessibility;
     }
 
-    public boolean isAceitaPets() {
-        return aceitaPets;
+    public int getAmountPeople() {
+        return amountPeople;
     }
 
-    public void setAceitaPets(boolean aceitaPets) {
-        this.aceitaPets = aceitaPets;
+    public void setAmountPeople(int amountPeople) {
+        this.amountPeople = amountPeople;
     }
 
-    public String getAcessibilidade() {
-        return acessibilidade;
+    public AdvertiserPerson getAdvertiser() {
+        return advertiser;
     }
 
-    public void setAcessibilidade(String acessibilidade) {
-        this.acessibilidade = acessibilidade;
+    public void setAdvertiser(AdvertiserPerson advertiser) {
+        this.advertiser = advertiser;
     }
 
-
-    public int getDiaInicio() {
-        return diaInicio;
+    public Date getCheckin() {
+        return checkin;
     }
 
-    public void setDiaInicio(int diaInicio) {
-        this.diaInicio = diaInicio;
+    public void setCheckin(Date checkin) {
+        this.checkin = checkin;
     }
 
-    public List<String> getFotos() {
-        return fotos;
+    public Date getCheckout() {
+        return checkout;
     }
 
-    public void setFotos(List<String> fotos) {
-        this.fotos = fotos;
+    public void setCheckout(Date checkout) {
+        this.checkout = checkout;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<String> getFurnitureAvailable() {
+        return furnitureAvailable;
+    }
+
+    public void setFurnitureAvailable(List<String> furnitureAvailable) {
+        this.furnitureAvailable = furnitureAvailable;
     }
 
     public Long getId() {
@@ -109,76 +114,28 @@ public class Publicity {
         this.id = id;
     }
 
-    public String getLocalizacao() {
-        return localizacao;
+    public UUID getIdAdvertiser() {
+        return idAdvertiser;
     }
 
-    public void setLocalizacao(String localizacao) {
-        this.localizacao = localizacao;
+    public void setIdAdvertiser(UUID idAdvertiser) {
+        this.idAdvertiser = idAdvertiser;
     }
 
-    public int getMesInicio() {
-        return mesInicio;
+    public String getLocation() {
+        return location;
     }
 
-    public void setMesInicio(int mesInicio) {
-        this.mesInicio = mesInicio;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public List<String> getMobiliaDisponivel() {
-        return mobiliaDisponivel;
+    public List<String> getPhotos() {
+        return photos;
     }
 
-    public void setMobiliaDisponivel(List<String> mobiliaDisponivel) {
-        this.mobiliaDisponivel = mobiliaDisponivel;
-    }
-
-    public int getQuantidadePessoas() {
-        return quantidadePessoas;
-    }
-
-    public void setQuantidadePessoas(int quantidadePessoas) {
-        this.quantidadePessoas = quantidadePessoas;
-    }
-
-    public double getTamanho() {
-        return tamanho;
-    }
-
-    public void setTamanho(double tamanho) {
-        this.tamanho = tamanho;
-    }
-
-    public double getValor() {
-        return valor;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
-    }
-
-    public UUID getIdAnunciante() {
-        return idAnunciante;
-    }
-
-    public void setIdAnunciante(UUID idAnunciante) {
-        this.idAnunciante = idAnunciante;
-    }
-
-    public AdvertiserPerson getAnunciante() {
-        return anunciante;
-    }
-
-    public void setAnunciante(AdvertiserPerson anunciante) {
-        this.anunciante = anunciante;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setPhotos(List<String> photos) {
+        this.photos = photos;
     }
 
     public List<Reservations> getReservations() {
@@ -189,11 +146,27 @@ public class Publicity {
         this.reservations = reservations;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public double getSize() {
+        return size;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setSize(double size) {
+        this.size = size;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
     }
 }

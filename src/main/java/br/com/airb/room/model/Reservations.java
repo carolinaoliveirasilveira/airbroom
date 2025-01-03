@@ -12,40 +12,39 @@ public class Reservations {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date dataInicio;
-    private Date dataFim;
-    private BigDecimal valorDiaria;
-    private BigDecimal valorTotal;
-    private String formaPagamento;
-    private Boolean pagamentoAntecipado;
+    private Date checkin;
+    private Date checkout;
+    private BigDecimal dailyValue;
+    private BigDecimal totalValue;
+    private String paymentMethod;
+    private Boolean advancePayment;
 
     @ManyToOne
     @JoinColumn(name = "publicity_id", nullable = false)
     private Publicity publicity;
 
-
-    public Date getDataFim() {
-        return dataFim;
+    public Date getCheckout() {
+        return checkout;
     }
 
-    public void setDataFim(Date dataFim) {
-        this.dataFim = dataFim;
+    public void setCheckout(Date checkout) {
+        this.checkout = checkout;
     }
 
-    public Date getDataInicio() {
-        return dataInicio;
+    public Date getCheckin() {
+        return checkin;
     }
 
-    public void setDataInicio(Date dataInicio) {
-        this.dataInicio = dataInicio;
+    public void setCheckin(Date checkin) {
+        this.checkin = checkin;
     }
 
-    public String getFormaPagamento() {
-        return formaPagamento;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setFormaPagamento(String formaPagamento) {
-        this.formaPagamento = formaPagamento;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public Long getId() {
@@ -56,28 +55,28 @@ public class Reservations {
         this.id = idReservation;
     }
 
-    public Boolean getPagamentoAntecipado() {
-        return pagamentoAntecipado;
+    public Boolean getAdvancePayment() {
+        return advancePayment;
     }
 
-    public void setPagamentoAntecipado(Boolean pagamentoAntecipado) {
-        this.pagamentoAntecipado = pagamentoAntecipado;
+    public void setAdvancePayment(Boolean advancePayment) {
+        this.advancePayment = advancePayment;
     }
 
-    public BigDecimal getValorDiaria() {
-        return valorDiaria;
+    public BigDecimal getDailyValue() {
+        return dailyValue;
     }
 
-    public void setValorDiaria(BigDecimal valorDiaria) {
-        this.valorDiaria = valorDiaria;
+    public void setDailyValue(BigDecimal dailyValue) {
+        this.dailyValue = dailyValue;
     }
 
-    public BigDecimal getValorTotal() {
-        return valorTotal;
+    public BigDecimal getTotalValue() {
+        return totalValue;
     }
 
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
+    public void setTotalValue(BigDecimal totalValue) {
+        this.totalValue = totalValue;
     }
 
     public Publicity getPublicity() {

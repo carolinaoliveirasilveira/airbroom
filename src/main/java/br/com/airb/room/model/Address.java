@@ -1,6 +1,5 @@
 package br.com.airb.room.model;
 
-import br.com.airb.room.model.enums.ContactEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,20 +8,30 @@ import jakarta.persistence.Id;
 import java.util.UUID;
 
 @Entity
-public class Contact {
+public class Address {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private ContactEnum typesContact;
-    private String contactDescription;
+    private String city;
+    private String state;
+    private String country;
     private UUID idAdvertiser;
 
-    public String getContactDescription() {
-        return contactDescription;
+    public String getCity() {
+        return city;
     }
 
-    public void setContactDescription(String contactDescription) {
-        this.contactDescription = contactDescription;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public UUID getId() {
@@ -41,11 +50,12 @@ public class Contact {
         this.idAdvertiser = idAdvertiser;
     }
 
-    public ContactEnum getTypesContact() {
-        return typesContact;
+    public String getCountry() {
+        return country;
     }
 
-    public void setTypesContact(ContactEnum typesContact) {
-        this.typesContact = typesContact;
+    public void setCountry(String country) {
+        this.country = country;
     }
 }
+

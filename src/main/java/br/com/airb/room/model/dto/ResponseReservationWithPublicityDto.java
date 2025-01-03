@@ -7,13 +7,13 @@ public record ResponseReservationWithPublicityDto(
         PublicityDto publicity) {
 
     public record PublicityDto(
-            Long id,
-            String titulo,
-            String descricao,
-            String localizacao) {
+            java.util.UUID id,
+            String title,
+            String description,
+            String location) {
 
         public PublicityDto(Publicity publicity) {
-            this(publicity.getId(), publicity.getTitulo(), publicity.getDescricao(), publicity.getLocalizacao());
+            this(publicity.getIdAdvertiser(), publicity.getTitle(), publicity.getDescription(), publicity.getLocation());
         }
     }
 }

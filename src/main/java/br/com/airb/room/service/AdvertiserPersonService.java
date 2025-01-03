@@ -1,20 +1,21 @@
 package br.com.airb.room.service;
 
+import br.com.airb.room.model.Address;
 import br.com.airb.room.model.AdvertiserPerson;
 import br.com.airb.room.model.Contact;
-import br.com.airb.room.model.Endereco;
-import br.com.airb.room.model.dto.ContatoDto;
-import br.com.airb.room.model.dto.EnderecoDto;
+import br.com.airb.room.model.dto.AddressesDto;
+import br.com.airb.room.model.dto.ContactsDto;
 import br.com.airb.room.model.dto.RequestAdvertiserPersonDto;
 import br.com.airb.room.model.dto.ResponseAdvertiserPersonDto;
 import br.com.airb.room.model.enums.ContactEnum;
+import br.com.airb.room.repository.AddressRepository;
 import br.com.airb.room.repository.AdvertiserPersonRepository;
 import br.com.airb.room.repository.ContactRepository;
-import br.com.airb.room.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Service
 public class AdvertiserPersonService {
@@ -26,78 +27,79 @@ public class AdvertiserPersonService {
     private ContactRepository contactRepository;
 
     @Autowired
-    private EnderecoRepository enderecoRepository;
+    private AddressRepository addressRepository;
 
-   public ResponseAdvertiserPersonDto criarAnunciante(RequestAdvertiserPersonDto requestAdvertiserPersonDto) {
+    public ResponseAdvertiserPersonDto createAdvertiser(RequestAdvertiserPersonDto requestAdvertiserPersonDto) {
         AdvertiserPerson advertiserPerson = toAdvertiserDto(requestAdvertiserPersonDto);
 
-       AdvertiserPerson returnAdvertiserPerson = advertiserPersonRepository.save(advertiserPerson);
-       ArrayList<Contact> returnContacts = new ArrayList<>();
-       requestAdvertiserPersonDto.contatos().forEach(c -> {
-           Contact contact = new Contact();
-           contact.setTypesContact(ContactEnum.valueOf(c.tipoContato()));
-           contact.setContactDescription(c.descricaoContato());
-           contact.setIdAnunciante(returnAdvertiserPerson.getId());
-           returnContacts.add(contactRepository.save(contact));
-       });
+        AdvertiserPerson returnAdvertiserPerson = advertiserPersonRepository.save(advertiserPerson);
+        ArrayList<Contact> returnContacts = new ArrayList<>();
+        if (requestAdvertiserPersonDto.contacts() != null) {
+            requestAdvertiserPersonDto.contacts().forEach(c -> {
+                Contact contact = new Contact();
+                contact.setTypesContact(ContactEnum.valueOf(c.typeContacts()));
+                contact.setContactDescription(c.descriptionContacts());
+                contact.setIdAdvertiser(returnAdvertiserPerson.getId());
+                returnContacts.add(contactRepository.save(contact));
+            });
+        }
 
-       ArrayList<Endereco> returnEnderecos = new ArrayList<>();
-       requestAdvertiserPersonDto.endereco().forEach(e -> {
-           Endereco endereco = new Endereco();
-           endereco.setCidade(e.cidade());
-           endereco.setEstado(e.estado());
-           endereco.setPais(e.pais());
-           returnEnderecos.add(enderecoRepository.save(endereco));
-       });
+        ArrayList<Address> returnAddresses = new ArrayList<>();
+        if (requestAdvertiserPersonDto.addresses() != null) {
+            requestAdvertiserPersonDto.addresses().forEach(a -> {
+                Address address = new Address();
+                address.setCity(a.city());
+                address.setState(a.state());
+                address.setCountry(a.country());
+                address.setIdAdvertiser(returnAdvertiserPerson.getId()); // Configurando o idAdvertiser
+                returnAddresses.add(addressRepository.save(address));
+            });
+        }
 
-        ResponseAdvertiserPersonDto responseAdvertiserPersonDto = toConverteAdvertiserParaDto(returnAdvertiserPerson, returnContacts, returnEnderecos);
+
+        ResponseAdvertiserPersonDto responseAdvertiserPersonDto = toConvertAdvertiserParaDto(returnAdvertiserPerson, returnContacts, returnAddresses);
 
         return responseAdvertiserPersonDto;
     }
 
-    private ResponseAdvertiserPersonDto toConverteAdvertiserParaDto(AdvertiserPerson advertiserPerson, ArrayList<Contact> returnContacts, ArrayList<Endereco> returnEnderecos) {
-       ArrayList<ContatoDto> contatoDtos = new ArrayList<>();
-       returnContacts.forEach(c -> {
-           contatoDtos.add(new ContatoDto(c.getTypesContact().toString(), c.getContactDescription()));
+    private ResponseAdvertiserPersonDto toConvertAdvertiserParaDto(AdvertiserPerson advertiserPerson, ArrayList<Contact> returnContacts, ArrayList<Address> returnAddresses) {
+        ArrayList<ContactsDto> contactsDtos = new ArrayList<>();
+        returnContacts.forEach(c -> {
+            contactsDtos.add(new ContactsDto(c.getTypesContact().toString(), c.getContactDescription()));
         });
 
-       ArrayList<EnderecoDto> enderecosDto = new ArrayList<>();
-       returnEnderecos.forEach(e -> {
-           enderecosDto.add(new EnderecoDto(e.getCidade().toString(), e.getEstado().toString(), e.getPais().toString()));
-       });
+        ArrayList<AddressesDto> addressesDtos = new ArrayList<>();
+        returnAddresses.forEach(e -> {
+            addressesDtos.add(new AddressesDto(e.getCity().toString(), e.getState().toString(), e.getCountry().toString()));
+        });
 
 
-       ResponseAdvertiserPersonDto responseAdvertiserPersonDto =
+        ResponseAdvertiserPersonDto responseAdvertiserPersonDto =
                 new ResponseAdvertiserPersonDto(
                         advertiserPerson.getId(),
-                        advertiserPerson.getNome(),
-                        advertiserPerson.getCpfOuCnpj(),
-                        advertiserPerson.isAtivo(),
-                        contatoDtos, enderecosDto);
+                        advertiserPerson.getName(),
+                        advertiserPerson.getCpfOrCnpj(),
+                        advertiserPerson.getActive(),
+                        contactsDtos, addressesDtos);
         return responseAdvertiserPersonDto;
     }
 
     private AdvertiserPerson toAdvertiserDto(RequestAdvertiserPersonDto requestAdvertiserPersonDto) {
         AdvertiserPerson advertiserPerson = new AdvertiserPerson();
-        advertiserPerson.setNome(requestAdvertiserPersonDto.nome());
-        advertiserPerson.setCpfOuCnpj(requestAdvertiserPersonDto.cpfOuCnpj());
-        advertiserPerson.setAtivo(requestAdvertiserPersonDto.ativo());
+        advertiserPerson.setName(requestAdvertiserPersonDto.name());
+        advertiserPerson.setCpfOrCnpj(requestAdvertiserPersonDto.cpfOrCnpj());
+        advertiserPerson.setActive(requestAdvertiserPersonDto.active());
         return advertiserPerson;
 
     }
 
-//    public ResponseAdvertiserPersonDto buscarAnunciantePorId(Long id) {
-//        AdvertiserPerson advertiserPerson = advertiserPersonRepository.findById(id).orElse(null);
-//        return (advertiserPerson != null) ? toConverteAdvertiserParaDto(advertiserPerson, returnContacts) : null;
-//    }
 
-
-    public boolean excluirAnunciante(Long id) {
+    public boolean deleteAdvertiser(UUID id) {
         if (advertiserPersonRepository.existsById(id)) {
             advertiserPersonRepository.deleteById(id);
             return true;
         }
         return false;
     }
-
 }
+

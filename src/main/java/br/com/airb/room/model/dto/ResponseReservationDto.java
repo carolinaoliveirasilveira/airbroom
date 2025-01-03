@@ -5,11 +5,11 @@ import java.util.Date;
 
 public record ResponseReservationDto(
         Long idReservation,
-        Date dataInicio,
-        Date dataFim,
-        BigDecimal valorDiaria,
-        BigDecimal valorTotal,
-        String formaPagamento,
-        Boolean pagamentoAntecipado) {
+        Date checkin,
+        Date checkout,
+        BigDecimal dailyValue,
+        BigDecimal totalValue,
+        String paymentMethod,
+        Boolean advancePayment) {
 
 }

@@ -5,6 +5,7 @@ import br.com.airb.room.model.dto.RequestPublicityDto;
 import br.com.airb.room.model.dto.ResponsePublicityDto;
 import br.com.airb.room.service.PublicityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,33 +17,37 @@ public class PublicityController {
     @Autowired
     private PublicityService publicityService;
 
-    @PostMapping("/{idAnunciante}/criar")
-    public ResponseEntity<ResponsePublicityDto> criarAnuncio(@RequestBody RequestPublicityDto requestPublicityDto, @PathVariable UUID idAnunciante) {
-        ResponsePublicityDto response = publicityService.criarAnuncio(requestPublicityDto, idAnunciante);
-        return ResponseEntity.ok(response);
+    @PostMapping("/{idAdvertiser}/create")
+    public ResponseEntity<ResponsePublicityDto> createPublicity(
+            @PathVariable UUID idAdvertiser,
+            @RequestBody RequestPublicityDto requestPublicityDto) {
+
+        ResponsePublicityDto responsePublicityDto = publicityService.createPublicity(requestPublicityDto, idAdvertiser);
+
+        return new ResponseEntity<>(responsePublicityDto, HttpStatus.CREATED);
     }
 
 
-    @GetMapping("/{id}/buscar")
-    public ResponseEntity<Publicity> buscarAnuncioPorId(@PathVariable Long id) {
-        Publicity publicity = publicityService.buscarAnuncioPorId(id);
+    @GetMapping("/{id}/search")
+    public ResponseEntity<Publicity> searchAdById(@PathVariable Long id) {
+        Publicity publicity = publicityService.searchAdById(id);
         if (publicity == null) {
-            return ResponseEntity.notFound().build();  // Retorna 404 se não encontrar o anúncio
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(publicity);  // Retorna o objeto Publicity
+        return ResponseEntity.ok(publicity);
     }
 
     @DeleteMapping("/{id}/delete")
-    public ResponseEntity<String> excluirAnuncio(@PathVariable Long id) {
-        boolean sucesso = publicityService.excluirAnuncio(id);
+    public ResponseEntity<String> deleteAd(@PathVariable Long id) {
+        boolean success = publicityService.deleteAd(id);
 
-        if (sucesso) {
-            return ResponseEntity.ok("Anúncio excluído com sucesso!");  // Retorna 200 OK com mensagem
+        if (success) {
+            return ResponseEntity.ok("Anúncio excluído com sucesso!");
         } else {
-            return ResponseEntity.notFound().build();  // Retorna 404 se o anúncio não for encontrado
+            return ResponseEntity.notFound().build();
         }
     }
-    }
+}
 
 
 
