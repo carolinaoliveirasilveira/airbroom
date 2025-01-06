@@ -10,6 +10,7 @@ public record ResponseReservationDto(
         BigDecimal dailyValue,
         BigDecimal totalValue,
         String paymentMethod,
-        Boolean advancePayment) {
+        Boolean advancePayment,
+        String mensage) {
 
 }

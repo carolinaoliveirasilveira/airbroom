@@ -10,4 +10,6 @@ public interface ReservationRepository extends JpaRepository<Reservations, Long>
 
 
     List<Reservations> findByPublicity(Publicity publicity);
+
+    List<Reservations> findByPublicityId(Long publicityId);
 }

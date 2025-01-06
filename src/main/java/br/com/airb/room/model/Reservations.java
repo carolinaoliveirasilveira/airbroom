@@ -18,6 +18,7 @@ public class Reservations {
     private BigDecimal totalValue;
     private String paymentMethod;
     private Boolean advancePayment;
+    private String mensage;
 
     @ManyToOne
     @JoinColumn(name = "publicity_id", nullable = false)
@@ -85,6 +86,14 @@ public class Reservations {
 
     public void setPublicity(Publicity publicity) {
         this.publicity = publicity;
+    }
+
+    public String getMensage() {
+        return mensage;
+    }
+
+    public void setMensage(String mensage) {
+        this.mensage = mensage;
     }
 }
 

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -29,7 +31,15 @@ public class ReservationService {
 
     public ResponseReservationDto createReservation(RequestReservationDto requestReservationDto, Long publicityId) {
         if (isDateOccupied(publicityId, requestReservationDto.checkin(), requestReservationDto.checkout())) {
-            throw new IllegalArgumentException("As datas selecionadas já estão ocupadas.");
+
+          return new ResponseReservationDto(0L,
+                  requestReservationDto.checkin(),
+                  requestReservationDto.checkout(),
+                  requestReservationDto.dailyValue(),
+                  BigDecimal.valueOf(0),
+                  "",
+                  Boolean.FALSE,
+                  "As datas selecionadas já estão ocupadas.");
         }
 
         long calculatingNumberOfDays = calculatingNumberOfDays(requestReservationDto.checkin(), requestReservationDto.checkout());
@@ -47,15 +57,27 @@ public class ReservationService {
 
 
     public boolean isDateOccupied(Long publicityId, Date checkin, Date checkout) {
-        List<Reservations> reservations = reservationRepository.findAll();
+        List<Reservations> reservations = reservationRepository.findByPublicityId(publicityId);
+        if (reservations.isEmpty()) {
+            return false;
+        }
 
+        SimpleDateFormat dateOnlyFormat = new SimpleDateFormat("yyyy-MM-dd");
         for (Reservations reservation : reservations) {
-            if (reservation.getPublicity().getId().equals(publicityId) &&
-                    reservation.getCheckin().before(checkout) &&
-                    reservation.getCheckout().after(checkin)) {
-                return true;
+            try {
+                Date reservationCheckin = dateOnlyFormat.parse(dateOnlyFormat.format(reservation.getCheckin()));
+                Date reservationCheckout = dateOnlyFormat.parse(dateOnlyFormat.format(reservation.getCheckout()));
+                Date checkinDate = dateOnlyFormat.parse(dateOnlyFormat.format(checkin));
+                Date checkoutDate = dateOnlyFormat.parse(dateOnlyFormat.format(checkout));
+
+                if (reservationCheckin.before(checkoutDate) && reservationCheckout.after(checkinDate)) {
+                    return true;
+                }
+            } catch (ParseException e) {
+                throw new RuntimeException("Erro ao formatar as datas", e);
             }
         }
+
         return false;
     }
 
@@ -73,8 +95,8 @@ public class ReservationService {
                 reservation.getDailyValue(),
                 reservation.getTotalValue(),
                 reservation.getPaymentMethod(),
-                reservation.getAdvancePayment()
-        );
+                reservation.getAdvancePayment(),
+                reservation.getMensage());
     }
 
     private Reservations toReservationDto(RequestReservationDto requestReservationDto, BigDecimal calculatingTotalValue, Publicity publicity) {
