@@ -380,7 +380,3 @@ O projeto disponibiliza algumas APIs organizadas em três contextos principais: 
         }
       ]
       ```
-
-
-
-
