@@ -91,8 +91,6 @@ Maven 3.3.3
 
 A aplicação estará disponível em [http://localhost:8081](http://localhost:8081).
 
-
-
 # APIs Disponíveis
 
 O projeto disponibiliza algumas APIs organizadas em três contextos principais: **Advertisers**, **Publicity**, e **Reservations**. Todas as APIs seguem o padrão REST, produzindo e consumindo dados no formato JSON.
@@ -104,18 +102,44 @@ O projeto disponibiliza algumas APIs organizadas em três contextos principais: 
     - **Request Body**:
       ```json
       {
-        "name": "John Doe",
-        "email": "johndoe@example.com",
-        "phone": "123456789"
+        "name": "Carolina Oliveira Silveira",
+        "cpfOrCnpj": "000000000",
+        "active": true,
+        "contacts": [
+          {
+            "typeContacts": "EMAIL",
+            "descriptionContacts": "carolinaos@example.com"
+          }
+        ],
+        "addresses": [
+          {
+            "city": "Palhoça",
+            "state": "SC",
+            "country": "Brasil"
+          }
+        ]
       }
       ```
     - **Response**:
       ```json
       {
-        "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
-        "name": "John Doe",
-        "email": "johndoe@example.com",
-        "phone": "123456789"
+        "id": "766fc3a1-d083-468c-8bb3-86cece71c4d6",
+        "name": "Carolina Oliveira Silveira",
+        "cpfOrCnpj": "01944147012",
+        "active": true,
+        "contacts": [
+          {
+            "typeContacts": "EMAIL",
+            "descriptionContacts": "carolinaos@example.com"
+          }
+        ],
+        "addresses": [
+          {
+            "city": "Palhoça",
+            "state": "SC",
+            "country": "Brasil"
+          }
+        ]
       }
       ```
 
@@ -137,18 +161,46 @@ O projeto disponibiliza algumas APIs organizadas em três contextos principais: 
     - **Request Body**:
       ```json
       {
-        "title": "Room with ocean view",
-        "description": "Spacious and comfortable room.",
-        "price": 150.0
+        "location": "Rio de Janeiro",
+        "size": 45,
+        "furnitureAvailable": [
+          "Cama casal",
+          "guarda roupa"
+        ],
+        "amountPeople": 4,
+        "checkin": "2025-01-05",
+        "checkout": "2025-01-20",
+        "acceptsPets": true,
+        "acceptschildren": true,
+        "accessibility": "Rampa de acesso",
+        "idAdvertiser": "7848838f-783d-40f9-bae7-78ebad942e2d",
+        "photos": [],
+        "value": 2000.0,
+        "title": "Cobertura Duplex Cabo Frio - Praia das Dunas",
+        "description": "Espaço inteiro: apartamento em Braga, Brasil"
       }
       ```
     - **Response**:
       ```json
       {
-        "id": "a12b34c56d78e90f",
-        "title": "Room with ocean view",
-        "description": "Spacious and comfortable room.",
-        "price": 150.0
+        "id": 15,
+        "location": "Rio de Janeiro",
+        "size": 45.0,
+        "furnitureAvailable": [
+          "Cama casal",
+          "guarda roupa"
+        ],
+        "amountPeople": 4,
+        "checkin": "2025-01-05T00:00:00.000+00:00",
+        "checkout": "2025-01-20T00:00:00.000+00:00",
+        "acceptsPets": true,
+        "acceptschildren": true,
+        "accessibility": "Rampa de acesso",
+        "idAdvertiser": "7848838f-783d-40f9-bae7-78ebad942e2d",
+        "photos": [],
+        "value": 2000.0,
+        "title": "Espaço inteiro: apartamento em Braga, Brasil",
+        "description": "Cobertura Duplex Cabo Frio - Praia das Dunas"
       }
       ```
 
@@ -159,10 +211,25 @@ O projeto disponibiliza algumas APIs organizadas em três contextos principais: 
     - **Response**:
       ```json
       {
-        "id": 1,
-        "title": "Room with ocean view",
-        "description": "Spacious and comfortable room.",
-        "price": 150.0
+        "id": 13,
+        "location": "Rio de Janeiro",
+        "size": 45.0,
+        "furnitureAvailable": [
+          "Cama casal",
+          "guarda roupa"
+        ],
+        "amountPeople": 4,
+        "checkin": "2025-01-05T00:00:00.000+00:00",
+        "checkout": "2025-01-20T00:00:00.000+00:00",
+        "acceptsPets": true,
+        "acceptschildren": true,
+        "accessibility": "Rampa de acesso",
+        "idAdvertiser": "7848838f-783d-40f9-bae7-78ebad942e2d",
+        "photos": [],
+        "value": 2000.0,
+        "title": "Cobertura Duplex Cabo Frio - Praia das Dunas",
+        "description": "Espaço inteiro: apartamento em Braga, Brasil",
+        "reservations": []
       }
       ```
 
@@ -184,18 +251,27 @@ O projeto disponibiliza algumas APIs organizadas em três contextos principais: 
     - **Request Body**:
       ```json
       {
-        "clientName": "Alice Brown",
-        "checkInDate": "2023-05-01",
-        "checkOutDate": "2023-05-10"
+        "checkin": "2025-03-13",
+        "checkout": "2025-03-15",
+        "dailyValue": 100.00,
+        "totalValue": 500.00,
+        "paymentMethod": "Cartão de Crédito",
+        "advancePayment": true,
+        "title": "Cobertura Duplex Cabo Frio - Praia das Dunas",
+        "description": "Espaço inteiro: apartamento em Braga, Brasil "
       }
       ```
     - **Response**:
       ```json
       {
-        "id": 1,
-        "clientName": "Alice Brown",
-        "checkInDate": "2023-05-01",
-        "checkOutDate": "2023-05-10"
+        "idReservation": 0,
+        "checkin": "2025-03-13T00:00:00.000+00:00",
+        "checkout": "2025-03-15T00:00:00.000+00:00",
+        "dailyValue": 100.00,
+        "totalValue": 0,
+        "paymentMethod": "",
+        "advancePayment": false,
+        "mensage": "As datas selecionadas já estão ocupadas."
       }
       ```
 
@@ -205,16 +281,22 @@ O projeto disponibiliza algumas APIs organizadas em três contextos principais: 
       ```json
       [
         {
-          "id": 1,
-          "clientName": "Alice Brown",
-          "checkInDate": "2023-05-01",
-          "checkOutDate": "2023-05-10"
+          "idReservation": 20,
+          "checkin": "2025-01-16T00:00:00.000+00:00",
+          "checkout": "2025-01-30T00:00:00.000+00:00",
+          "dailyValue": 100.00,
+          "totalValue": 1400.00,
+          "paymentMethod": "Cartão de Crédito",
+          "advancePayment": true
         },
         {
-          "id": 2,
-          "clientName": "Bob Smith",
-          "checkInDate": "2023-05-15",
-          "checkOutDate": "2023-05-20"
+          "idReservation": 21,
+          "checkin": "2025-03-01T00:00:00.000+00:00",
+          "checkout": "2025-03-05T00:00:00.000+00:00",
+          "dailyValue": 100.00,
+          "totalValue": 400.00,
+          "paymentMethod": "Cartão de Crédito",
+          "advancePayment": true
         }
       ]
       ```
@@ -226,10 +308,13 @@ O projeto disponibiliza algumas APIs organizadas em três contextos principais: 
     - **Response**:
       ```json
       {
-        "id": 1,
-        "clientName": "Alice Brown",
-        "checkInDate": "2023-05-01",
-        "checkOutDate": "2023-05-10"
+        "idReservation": 21,
+        "checkin": "2025-03-01T00:00:00.000+00:00",
+        "checkout": "2025-03-05T00:00:00.000+00:00",
+        "dailyValue": 100.00,
+        "totalValue": 400.00,
+        "paymentMethod": "Cartão de Crédito",
+        "advancePayment": true
       }
       ```
 
@@ -240,18 +325,25 @@ O projeto disponibiliza algumas APIs organizadas em três contextos principais: 
     - **Request Body**:
       ```json
       {
-        "clientName": "Alice Brown - Updated",
-        "checkInDate": "2023-05-02",
-        "checkOutDate": "2023-05-11"
+        "checkin": "2024-12-20T10:00:00",
+        "checkout": "2024-12-25T10:00:00",
+        "dailyValue": 150.00,
+        "totalValue": 750.00,
+        "paymentMethod": "Cartão de Crédito",
+        "advancePayment": true,
+        "publicityId": 1
       }
       ```
     - **Response**:
       ```json
       {
-        "id": 1,
-        "clientName": "Alice Brown - Updated",
-        "checkInDate": "2023-05-02",
-        "checkOutDate": "2023-05-11"
+        "idReservation": 19,
+        "checkin": "2024-12-20T10:00:00.000+00:00",
+        "checkout": "2024-12-25T10:00:00.000+00:00",
+        "dailyValue": 150.00,
+        "totalValue": 750.00,
+        "paymentMethod": "Cartão de Crédito",
+        "advancePayment": true
       }
       ```
 
@@ -270,12 +362,25 @@ O projeto disponibiliza algumas APIs organizadas em três contextos principais: 
       ```json
       [
         {
-          "id": 1,
-          "clientName": "Alice Brown",
-          "checkInDate": "2023-05-01",
-          "checkOutDate": "2023-05-10"
+          "reservation": {
+            "idReservation": 21,
+            "checkin": "2025-03-01T00:00:00.000+00:00",
+            "checkout": "2025-03-05T00:00:00.000+00:00",
+            "dailyValue": 100.00,
+            "totalValue": 400.00,
+            "paymentMethod": "Cartão de Crédito",
+            "advancePayment": true
+          },
+          "publicity": {
+            "id": "7848838f-783d-40f9-bae7-78ebad942e2d",
+            "title": "Cobertura Duplex Cabo Frio - Praia das Dunas",
+            "description": "Espaço inteiro: apartamento em Braga, Brasil",
+            "location": "Rio de Janeiro"
+          }
         }
       ]
       ```
+
+
 
 
