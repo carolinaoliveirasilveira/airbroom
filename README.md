@@ -1,17 +1,16 @@
-# airbroom
+# Airbroom
 
-O projeto **airbroom** é uma plataforma especializada no gerenciamento e aluguel de quartos, desenvolvida com foco em eficiência, escalabilidade e aderência às melhores práticas de desenvolvimento de software. Utilizando o ecossistema **Spring**, a aplicação oferece APIs RESTful robustas, facilitando a criação, gestão e consulta de anunciantes, anúncios e reservas de forma ágil e confiável.
+O projeto **airbroom** é uma plataforma especializada no gerenciamento e aluguel de quartos, desenvolvida com foco em eficiência, escalabilidade e aderência às melhores práticas de desenvolvimento de software. Utilizando o ecossistema **Spring Boot**, a aplicação oferece APIs RESTful robustas, facilitando a criação, gestão e consulta de anunciantes, anúncios e reservas de forma ágil e confiável.
 # Visão geral
 
-Esta aplicação back-end utiliza os frameworks [Spring Boot](https://spring.io/projects/spring-boot), [Spring Data JPA](https://spring.io/projects/spring-data-jpa) e [Spring Batch](https://spring.io/projects/spring-batch). Ela oferece APIs RESTful para gerenciamento de quartos e reservas, com persistência no banco de dados MySQL.
+Esta aplicação back-end utiliza o framework [Spring Boot](https://spring.io/projects/spring-boot). Ela oferece APIs RESTful para gerenciamento de quartos e reservas, com persistência no banco de dados MySQL.
 
 ## Tecnologias
 
 - **[Spring Boot](https://spring.io/projects/spring-boot):** Facilita o desenvolvimento de aplicações Java com configuração automatizada e servidor embutido.
 - **[Spring Data JPA](https://spring.io/projects/spring-data-jpa):** Abstração para operações de banco de dados utilizando JPA.
-- **[Spring Batch](https://spring.io/projects/spring-batch):** Framework para processamento em lote com suporte a transações e paralelismo.
-- **Banco de dados:** MySQL 8.0 para persistência de dados.
-- **Docker Compose:** Utilizado para configurar rapidamente ambientes de desenvolvimento.
+- **[MySql](https://www.mysql.com/):** MySQL para persistência de dados.
+- **[Docker](https://www.docker.com/):** Utilizado para configurar rapidamente ambientes de desenvolvimento.
 
 # Setup da aplicação (local)
 
@@ -21,7 +20,6 @@ Certifique-se de que os seguintes softwares estejam instalados:
 
 - **Java 17**: Para executar o projeto.
 - **MySQL 8.0**: Banco de dados para a aplicação.
-- **Maven 3.8+**: Gerenciador de dependências e build.
 
 ### Configuração do banco de dados
 
@@ -67,7 +65,7 @@ Started AppConfig in xxxx seconds (JVM running for xxxx)
 Certifique-se de que as seguintes dependências estejam instaladas:
 
 ```
-Java 8
+Java 17
 Docker 17.06.0
 Maven 3.3.3
 ```
